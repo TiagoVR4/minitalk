@@ -6,7 +6,7 @@
 /*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:47:15 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/05/09 18:38:02 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:24:49 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINITALK_H
 
 # include <unistd.h>
+# include <signal.h>
+# include <stdlib.h>
 # include "libft/libft.h"
 
 #endif
