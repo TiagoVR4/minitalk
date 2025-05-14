@@ -6,7 +6,7 @@
 #    By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/09 13:47:57 by tiagovr4          #+#    #+#              #
-#    Updated: 2025/05/09 14:24:49 by tiagovr4         ###   ########.fr        #
+#    Updated: 2025/05/14 16:32:38 by tiagovr4         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,13 +32,9 @@ INCLUDES = -I$(LIBFT_PATH) -Iincludes/
 
 # Source directories
 SRC_DIR = src
-CLIENT_DIR = $(SRC_DIR)/client
-SERVER_DIR = $(SRC_DIR)/server
+CLIENT_SRC = $(SRC_DIR)/client.c
+SERVER_SRC = $(SRC_DIR)/server.c
 
-# source files
-CLIENT_SRC = $(CLIENT_DIR)/client.c
-SERVER_SRC = $(SERVER_DIR)/server.c
-	
 # object files
 CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 SERVER_OBJ = $(SERVER_SRC:.c=.o)
@@ -72,10 +68,12 @@ $(CLIENT): $(CLIENT_OBJ) $(LIBFT_ARC)
 	@$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_OBJ) -L$(LIBFT_PATH) -lft
 	@echo "[$(GRN)Done!$(D)]"
 
+PRINTF_ARC = $(LIBFT_PATH)/ft_printf/libftprintf.a
+
 # Create server executable
-$(SERVER): $(SERVER_OBJ) $(LIBFT_ARC)
+$(SERVER): $(SERVER_OBJ) $(LIBFT_ARC) $(PRINTF_ARC)
 	@echo "[$(CYN)Compiling$(D)] $(SERVER)"
-	@$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJ) -L$(LIBFT_PATH) -lft
+	@$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_OBJ) -L$(LIBFT_PATH) -lft -L$(LIBFT_PATH)/ft_printf -lftprintf
 	@echo "[$(GRN)Done!$(D)]"
 
 # Generic rule for compiling .c to .o
