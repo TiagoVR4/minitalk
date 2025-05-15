@@ -6,7 +6,7 @@
 /*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:23:06 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/05/14 15:56:57 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:12:23 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	send_char(pid_t pid, char c)
 			kill(pid, SIGUSR1);					// Send 1
 		else
 			kill(pid, SIGUSR2);					// Send 0
-		usleep(100);							// Wait for the server to process	
+		usleep(500);							// Wait for the server to process	
 		bit++;
 	}
 }
