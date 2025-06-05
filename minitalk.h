@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:47:15 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/05/30 16:56:36 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:47:04 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ typedef struct	s_message
 	char	*buffer;
 	size_t	size;
 	size_t	len;
-	int		bit;
-	char	c;
 }				t_message;
 
 #endif

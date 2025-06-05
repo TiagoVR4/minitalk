@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:39:44 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/05/30 18:51:49 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:46:55 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ int	main(void)
 	g_message.buffer = NULL;
 	g_message.size = 0;
 	g_message.len = 0;
-	g_message.bit = 0;
-	g_message.c = 0;
 	
 	ft_printf("Server PID: %d\n", getpid());
 	setup_signals();
