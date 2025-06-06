@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:39:44 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/06 12:48:43 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:38:43 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static void	add_char_to_buffer(char c)
 	if (g_message.len >= g_message.size)
 		reallocate_buffer();
 	g_message.buffer[g_message.len++] = c;
+	// ft_printf("Char received: %c (%d)\n", c > 31 ? c : '.', (int)c);	// debugger
 	if (c == '\0')
 	{
-		ft_printf("%s", g_message.buffer);
-		ft_putchar_fd('\n', 1);
+		ft_printf("%s\n", g_message.buffer);
 		free(g_message.buffer);
 		g_message.buffer = NULL;
 		g_message.size = 0;
@@ -58,7 +58,7 @@ static void	handle_bit(int sig)
 	static char	current_char = 0;
 
 	if (sig == SIGUSR1)
-		current_char |= (1<< bit_position);		// Set the bit
+		current_char |= (1 << bit_position);		// Set the bit
 	bit_position++;
 	if (bit_position == 8)
 	{
