@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:39:44 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/06 17:38:43 by tiagalex         ###   ########.fr       */
+/*   Updated: 2025/06/19 19:34:20 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,12 @@ static void	handle_bit(int sig)
 
 static void	setup_signals(void)
 {
-	struct sigaction	sa;
-	
-	sa.sa_handler = handle_bit;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	if (signal(SIGUSR1, handle_bit) == SIG_ERR)
 	{
 		ft_putstr_fd("Error setting up SIGUSR1 handler\n", 2);
 		exit(1);
 	}
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+	if(signal(SIGUSR2, handle_bit) == SIG_ERR)
 	{
 		ft_putstr_fd("Error setting up SIGUSR2 handler\n", 2);
 		exit(1);
