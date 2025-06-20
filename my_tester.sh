@@ -27,16 +27,15 @@ duration=$(echo "scale=3; $end_time - $start_time" | bc)
 echo "Time taken: ${duration}s"
 
 # Test with medium message
-MSG_MEDIUM=$(cat /etc/passwd | head -10)
 echo -e "\n=== SENDING MEDIUM MESSAGE ==="
-echo "Message (first 50 chars): '${MSG_MEDIUM:0:50}...'"
+MSG_MEDIUM="This is a medium length message with multiple lines.\nIt tests newline handling.\nLine 1\nLine 2\nLine 3\nLine 4\nLine 5\nEnd of message."
+echo "Message preview: '${MSG_MEDIUM:0:50}...'"
 start_time=$(date +%s.%N)
 ./client $DISPLAYED_PID "$MSG_MEDIUM"
 end_time=$(date +%s.%N)
-sleep 1  # Wait after timing for output to appear
-echo "Server output (first 50 chars):"
-tail -1 server_output.txt | head -c 50
-echo "..."
+sleep 1
+echo "Server output (complete):"
+tail -1 server_output.txt
 duration=$(echo "scale=3; $end_time - $start_time" | bc)
 echo "Time taken: ${duration}s"
 
@@ -49,12 +48,17 @@ start_time=$(date +%s.%N)
 end_time=$(date +%s.%N)
 sleep 2  # Wait after timing for output to appear
 echo "Server output size: $(tail -1 server_output.txt | wc -c) bytes"
+echo "Server output (first 100 chars):"
+tail -1 server_output.txt | head -c 100
+echo -e "\n..."
+echo "Server output (last 100 chars):"
+tail -1 server_output.txt | tail -c 100
 duration=$(echo "scale=3; $end_time - $start_time" | bc)
 echo "Time taken: ${duration}s"
 
 # Test with special characters
 echo -e "\n=== SENDING SPECIAL CHARACTERS ==="
-SPECIAL_CHARS='!@#$%^&*()_+=-{}[]|\:;"<>,.?/~` '
+SPECIAL_CHARS='!@#$%^&*()_+=-{}[]|\:;"<>,.?/~ `'
 echo "Message: '$SPECIAL_CHARS'"
 start_time=$(date +%s.%N)
 ./client $DISPLAYED_PID "$SPECIAL_CHARS"
