@@ -6,11 +6,28 @@
 /*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:23:06 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/19 19:47:34 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:16:19 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
+
+// This function sends the message size
+static void	send_size(pid_t pid, size_t size)
+{
+	int	i;
+
+	i = 0;
+	while (i < 32)
+	{
+		if ((size >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		usleep(200);
+		i++;
+	}
+}
 
 // This function sends a character by sending each bit
 static void	send_char(pid_t pid, char c)
@@ -33,14 +50,16 @@ static void	send_char(pid_t pid, char c)
 static void	send_string(pid_t pid, char *str)
 {
 	int	i;
+	size_t	size;
 
+	size = ft_strlen(str);
 	i = 0;
+	send_size(pid, size);
 	while (str[i] != '\0')
 	{
 		send_char(pid, str[i]);
 		i++;
 	}
-	send_char(pid, '\0');
 }
 
 int	main(int argc, char **argv)
