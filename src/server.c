@@ -6,7 +6,7 @@
 /*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:39:44 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/19 19:34:20 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:01:12 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,71 +14,54 @@
 
 t_message	g_message;
 
-static void	reallocate_buffer(void)
+static void	show_and_release(void)
 {
-	char	*new_buffer;
-	size_t	new_size;
-	
-	new_size = g_message.size == 0 ? 64 : g_message.size * 2;
-	new_buffer = malloc(new_size);
-	if (!new_buffer)
-	{
-		free(g_message.buffer);
-		ft_putstr_fd("Memory allocation error\n", 2);
-		exit(1);
-	}
-	if (g_message.buffer)
-		ft_memcpy(new_buffer, g_message.buffer, g_message.len);
+	g_message.buffer[g_message.size] = '\0';
+	ft_printf("%s\n", g_message.buffer);
 	free(g_message.buffer);
-	g_message.buffer = new_buffer;
-	g_message.size = new_size;
+	g_message.buffer = NULL;
+	g_message.size = 0;
+	g_message.len = 0;
 }
 
-// This function collects all the characters before printing
-static void	add_char_to_buffer(char c)
+// this funtion reconstructs the original message
+static void	handle_message(int sig)
 {
-	if (g_message.len >= g_message.size)
-		reallocate_buffer();
-	g_message.buffer[g_message.len++] = c;
-	// ft_printf("Char received: %c (%d)\n", c > 31 ? c : '.', (int)c);	// debugger
-	if (c == '\0')
+	static unsigned char	received_char = 0;
+	static int				bit_counter = 0;
+	
+	if (sig == SIGUSR1)
+		received_char |= (1 << bit_counter);
+	bit_counter++;
+	if (bit_counter == 8)
 	{
-		ft_printf("%s\n", g_message.buffer);
-		free(g_message.buffer);
-		g_message.buffer = NULL;
-		g_message.size = 0;
-		g_message.len = 0;
+		if (g_message.buffer == NULL)
+			g_message.buffer = ft_calloc((g_message.size + 1), sizeof(char));
+		g_message.buffer[g_message.len] = received_char;
+		g_message.len++;
+		bit_counter = 0;
+		received_char = 0;
 	}
+	if (g_message.len == g_message.size)
+		show_and_release();
 }
 
-// This funtion reconstructs the original message from the bits received.
+// This funtion reconstructs the size of the original message
 static void	handle_bit(int sig)
 {
-	static int	bit_position = 0;
-	static char	current_char = 0;
-
+	static unsigned int	char_size = 0;
+	static int			bit_position = 0;
+	
 	if (sig == SIGUSR1)
-		current_char |= (1 << bit_position);		// Set the bit
+		char_size |= (1 << bit_position);		// Set the bit
 	bit_position++;
-	if (bit_position == 8)
+	if (bit_position == 32)						// int size equal 32 bits (4 bytes)
 	{
-		add_char_to_buffer(current_char);
+		g_message.size = char_size;
 		bit_position = 0;
-		current_char = 0;
-	}
-}
-
-static void	setup_signals(void)
-{
-	if (signal(SIGUSR1, handle_bit) == SIG_ERR)
-	{
-		ft_putstr_fd("Error setting up SIGUSR1 handler\n", 2);
-		exit(1);
-	}
-	if(signal(SIGUSR2, handle_bit) == SIG_ERR)
-	{
-		ft_putstr_fd("Error setting up SIGUSR2 handler\n", 2);
-		exit(1);
+		char_size = 0;
+		//signal(SIGUSR1, handle_message);
+		//signal(SIGUSR2, handle_message);
 	}
 }
 
@@ -89,8 +72,21 @@ int	main(void)
 	g_message.len = 0;
 	
 	ft_printf("Server PID: %d\n", getpid());
-	setup_signals();
+	//signal(SIGUSR1, handle_bit);
+	//signal(SIGUSR2, handle_bit);
 	while (1)
-		pause();
+	{
+		if (g_message.size == 0)
+		{
+			signal(SIGUSR1, handle_bit);
+			signal(SIGUSR2, handle_bit);
+		}
+		else
+		{
+			signal(SIGUSR1, handle_message);
+			signal(SIGUSR2, handle_message);
+		}
+		//pause();
+	}
 	return (0);
 }
