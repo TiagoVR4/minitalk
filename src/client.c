@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:23:06 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/20 14:16:19 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:19:36 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	send_size(pid_t pid, size_t size)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(200);
+		usleep(50);
 		i++;
 	}
 }
@@ -41,7 +41,7 @@ static void	send_char(pid_t pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(200);							// Wait for the server to process	
+		usleep(50);
 		bit++;
 	}
 }
@@ -49,8 +49,8 @@ static void	send_char(pid_t pid, char c)
 // This function sends a string to the server character by character
 static void	send_string(pid_t pid, char *str)
 {
-	int	i;
 	size_t	size;
+	int		i;
 
 	size = ft_strlen(str);
 	i = 0;
@@ -65,7 +65,7 @@ static void	send_string(pid_t pid, char *str)
 int	main(int argc, char **argv)
 {
 	pid_t	server_pid;
-	
+
 	if (argc != 3)
 	{
 		ft_putstr_fd("Usage: ./client [server PID] [message]\n", 2);
