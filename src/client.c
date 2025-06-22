@@ -6,7 +6,7 @@
 /*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:23:06 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/22 17:19:36 by tiagalex         ###   ########.fr       */
+/*   Updated: 2025/06/22 20:36:55 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	send_size(pid_t pid, size_t size)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(50);
+		usleep(1000);
 		i++;
 	}
 }
@@ -41,7 +41,7 @@ static void	send_char(pid_t pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(50);
+		usleep(1000);
 		bit++;
 	}
 }

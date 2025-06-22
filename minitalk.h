@@ -6,7 +6,7 @@
 /*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:47:15 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/22 16:02:23 by tiagalex         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:40:55 by tiagalex         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ typedef struct s_message
 	size_t	size;
 	size_t	len;
 }				t_message;
+
+void	handle_bit(int sig);
 
 #endif
