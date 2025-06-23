@@ -6,7 +6,7 @@
 /*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 18:39:44 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/23 01:14:12 by tiagovr4         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:02:59 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static char	*g_buffer = NULL;
 
-static void	show_and_release(void)
+/* static void	show_and_release(void)
 {
 	ft_printf("%s\n", g_buffer);
 	free(g_buffer);
 	g_buffer = NULL;
-}
+} */
 
 // this funtion reconstructs the original message
 static void	handle_message(int sig)
@@ -42,9 +42,14 @@ static void	handle_message(int sig)
 		free(g_buffer);
 		g_buffer = joined;
 		if (received_char == '\0')
-			show_and_release();
-		bit_counter = 0;
-		received_char = 0;
+		{
+			//show_and_release();
+			ft_printf("%s\n", g_buffer);
+			free(g_buffer);
+			g_buffer = NULL;
+		}
+			bit_counter = 0;
+			received_char = 0;
 	}
 }
 
