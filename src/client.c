@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tiagalex <tiagalex@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tiagovr4 <tiagovr4@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:23:06 by tiagovr4          #+#    #+#             */
-/*   Updated: 2025/06/22 20:36:55 by tiagalex         ###   ########.fr       */
+/*   Updated: 2025/06/23 01:15:56 by tiagovr4         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
-
-// This function sends the message size
-static void	send_size(pid_t pid, size_t size)
-{
-	int	i;
-
-	i = 0;
-	while (i < 32)
-	{
-		if ((size >> i) & 1)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		usleep(1000);
-		i++;
-	}
-}
 
 // This function sends a character by sending each bit
 static void	send_char(pid_t pid, char c)
@@ -41,7 +24,7 @@ static void	send_char(pid_t pid, char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(1000);
+		usleep(200);
 		bit++;
 	}
 }
@@ -49,15 +32,14 @@ static void	send_char(pid_t pid, char c)
 // This function sends a string to the server character by character
 static void	send_string(pid_t pid, char *str)
 {
-	size_t	size;
 	int		i;
 
-	size = ft_strlen(str);
 	i = 0;
-	send_size(pid, size);
-	while (str[i] != '\0')
+	while (1)
 	{
 		send_char(pid, str[i]);
+		if (str[i] == '\0')
+			break;
 		i++;
 	}
 }
